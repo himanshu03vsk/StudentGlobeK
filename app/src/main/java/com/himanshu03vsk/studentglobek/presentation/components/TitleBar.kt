@@ -1,5 +1,8 @@
 package com.himanshu03vsk.studentglobek.presentation.components
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.TopAppBar
@@ -15,10 +18,22 @@ import androidx.compose.runtime.Composable
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopAppBarComponent(titleText: String, backgroundColor: Color = Color(0xFF6200EE)) {
-    TopAppBar(
-        title = { Text("Student Globe", style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.onPrimary, modifier = Modifier.padding(16.dp)) },
-        modifier = Modifier.fillMaxWidth(),
-        colors = TopAppBarDefaults.topAppBarColors(MaterialTheme.colorScheme.primary)
-    )
-}
+fun TopAppBarComponent(titleText: String) {
+
+        TopAppBar(
+            title = {
+                Text(
+                    text = titleText,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    modifier = Modifier.padding(16.dp)
+
+                )
+            },
+            modifier = Modifier.fillMaxWidth(),
+            colors = TopAppBarDefaults.topAppBarColors(MaterialTheme.colorScheme.primary),
+
+        )
+    }
+
+
