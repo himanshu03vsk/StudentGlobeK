@@ -1,7 +1,4 @@
 
-
-
-//TODO: maybe add Chatroom Description as a field too
 package com.himanshu03vsk.studentglobek.presentation.activities
 import com.himanshu03vsk.studentglobek.presentation.components.TextFieldInputFunction
 import com.himanshu03vsk.studentglobek.presentation.components.LargeInputBox
@@ -46,7 +43,8 @@ class CreateEventActivity : ComponentActivity() {
                 var mExpanded by remember { mutableStateOf(false) }
 
                 // Available chatroom types
-
+                Scaffold(modifier = Modifier.fillMaxSize(),
+                    containerColor = MaterialTheme.colorScheme.background) { padding ->
                 Column(
                     modifier = Modifier.fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -138,7 +136,7 @@ class CreateEventActivity : ComponentActivity() {
             }
         }
     }
-}
+}}
 
 
 

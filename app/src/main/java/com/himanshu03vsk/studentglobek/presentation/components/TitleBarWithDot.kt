@@ -18,7 +18,7 @@ import androidx.compose.runtime.Composable
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopAppBarComponent(titleText: String) {
+fun TopAppBarWithDotComponent(titleText: String) {
 
         TopAppBar(
             title = {

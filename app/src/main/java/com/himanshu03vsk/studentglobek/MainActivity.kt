@@ -1,12 +1,13 @@
 package com.himanshu03vsk.studentglobek
 
-
-
 import com.himanshu03vsk.studentglobek.presentation.activities.*
 import android.content.Intent
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -40,19 +41,19 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-
     // Main screen with 3 buttons
     @Composable
     fun MainScreen(modifier: Modifier = Modifier) {
+        val scrollState = rememberScrollState()
+
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
             modifier = modifier
                 .fillMaxSize()
                 .padding(16.dp)
+                .verticalScroll(scrollState)  // Make the Column scrollable
         ) {
-
-
             Button(onClick = {
                 // Navigate to Create Chatroom Activity
                 val intent = Intent(this@MainActivity, LandingActivity::class.java)
@@ -158,10 +159,18 @@ class MainActivity : ComponentActivity() {
             }) {
                 Text("View Events")
             }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Button(onClick = {
+                // Navigate to Reset Password Activity
+                val intent = Intent(this@MainActivity, ResetPasswordActivity::class.java)
+                this@MainActivity.startActivity(intent)
+            }) {
+                Text("Reset Password")
+            }
         }
     }
-
-
 
     @Preview(showBackground = true)
     @Composable

@@ -41,7 +41,8 @@ class CreateChatroomActivity : ComponentActivity() {
 
                 // Available chatroom types
                 val chatRoomTypes = listOf("Semester", "Event")
-
+                Scaffold(modifier = Modifier.fillMaxSize(),
+                    containerColor = MaterialTheme.colorScheme.background) { padding ->
                 Column(
                     modifier = Modifier.fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -120,7 +121,7 @@ class CreateChatroomActivity : ComponentActivity() {
             }
         }
     }
-}
+}}
 
 
 
