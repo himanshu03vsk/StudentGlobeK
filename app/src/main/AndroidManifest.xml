@@ -40,6 +40,7 @@
         <activity android:name=".presentation.activities.LoginActivity" />
         <activity android:name=".presentation.activities.SearchPeersActivity" />
         <activity android:name=".presentation.activities.SignUpActivity" />
+        <activity android:name=".presentation.activities.JoinedChatroomsActivity" />
         <activity android:name=".presentation.activities.VerifyAccountActivity" />
         <activity android:name=".presentation.activities.ViewChatroomsActivity" />
         <activity android:name=".presentation.activities.ViewEventsActivity" />

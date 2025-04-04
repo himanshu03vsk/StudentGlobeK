@@ -18,26 +18,25 @@ import com.google.firebase.Timestamp
 import com.himanshu03vsk.studentglobek.domain.model.Chatroom
 import com.himanshu03vsk.studentglobek.presentation.components.TopAppBarComponent
 import com.himanshu03vsk.studentglobek.ui.theme.StudentGlobeKTheme
-import com.himanshu03vsk.studentglobek.presentation.viewmodel.ChatRoomsViewModel
 import com.himanshu03vsk.studentglobek.presentation.viewmodel.JoinedChatRoomsViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ViewChatroomsActivity : ComponentActivity() {
-    private val viewModel: ChatRoomsViewModel by viewModels()
+class JoinedChatroomsActivity : ComponentActivity() {
+    private val viewModel: JoinedChatRoomsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             StudentGlobeKTheme {
-                ViewChatroomListScreen(viewModel = viewModel)
+                ChatroomListScreen(viewModel = viewModel)
             }
         }
     }
 }
 
 @Composable
-fun ViewChatroomListScreen(viewModel: ChatRoomsViewModel) {
+fun ChatroomListScreen(viewModel: JoinedChatRoomsViewModel) {
     val chatrooms by viewModel.chatrooms.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val error by viewModel.error.collectAsState()
@@ -95,4 +94,51 @@ fun ViewChatroomListScreen(viewModel: ChatRoomsViewModel) {
             }
         }
     }
+}
+
+@Composable
+fun ChatroomCard(chatroom: Chatroom) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { /* Handle click */ },
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Text(
+                text = chatroom.name,
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.primary
+            )
+
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Type: ${chatroom.type}")
+                Text("Members: ${chatroom.membersSize}")
+            }
+
+            Text("Major: ${chatroom.major}")
+            Text("Department: ${chatroom.department}")
+
+            Text(
+                text = "Expires: ${formatTimestamp(chatroom.expiry)}",
+                style = MaterialTheme.typography.bodySmall,
+                color = Color.Gray
+            )
+        }
+    }
+}
+
+private fun formatTimestamp(timestamp: Timestamp): String {
+    val sdf = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
+    return sdf.format(timestamp.toDate())
 }

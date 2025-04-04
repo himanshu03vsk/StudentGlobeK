@@ -4,6 +4,7 @@ package com.himanshu03vsk.studentglobek
 
 import com.himanshu03vsk.studentglobek.presentation.activities.*
 import android.content.Intent
+import android.graphics.Paint.Join
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.*
@@ -18,6 +19,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,15 +47,14 @@ class MainActivity : ComponentActivity() {
     fun MainScreen(modifier: Modifier = Modifier) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
+            verticalArrangement = Arrangement.spacedBy(16.dp), // Adjust spacing between items
             modifier = modifier
                 .fillMaxSize()
                 .padding(16.dp)
+                .verticalScroll(rememberScrollState()) // Make the column scrollable
         ) {
-
-
             Button(onClick = {
-                // Navigate to Create Chatroom Activity
+                // Navigate to Landing Activity
                 val intent = Intent(this@MainActivity, LandingActivity::class.java)
                 this@MainActivity.startActivity(intent)
             }) {
@@ -67,8 +69,6 @@ class MainActivity : ComponentActivity() {
                 Text("Create Chatroom")
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
-
             Button(onClick = {
                 // Navigate to Create Event Activity
                 val intent = Intent(this@MainActivity, CreateEventActivity::class.java)
@@ -77,27 +77,30 @@ class MainActivity : ComponentActivity() {
                 Text("Create Event")
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Button(onClick = {
+                // Navigate to Joined Chatroom Activity
+                val intent = Intent(this@MainActivity, JoinedChatroomsActivity::class.java)
+                this@MainActivity.startActivity(intent)
+            }) {
+                Text("Joined Chatrooms")
+            }
 
             Button(onClick = {
-                // Navigate to User Profile Activity (or any other activity)
+                // Navigate to User Profile Activity
                 val intent = Intent(this@MainActivity, EditProfileActivity::class.java)
                 this@MainActivity.startActivity(intent)
             }) {
                 Text("User Profile")
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
-
             Button(onClick = {
-                // Navigate to User Profile Activity (or any other activity)
+                // Navigate to Home Page Activity
                 val intent = Intent(this@MainActivity, HomePageActivity::class.java)
                 this@MainActivity.startActivity(intent)
             }) {
                 Text("Home Page")
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
             Button(onClick = {
                 // Navigate to Chatroom Activity
                 val intent = Intent(this@MainActivity, ChatroomActivity::class.java)
@@ -105,7 +108,7 @@ class MainActivity : ComponentActivity() {
             }) {
                 Text("Chatroom")
             }
-            Spacer(modifier = Modifier.height(16.dp))
+
             Button(onClick = {
                 // Navigate to Event Activity
                 val intent = Intent(this@MainActivity, EventActivity::class.java)
@@ -113,7 +116,7 @@ class MainActivity : ComponentActivity() {
             }) {
                 Text("Event")
             }
-            Spacer(modifier = Modifier.height(16.dp))
+
             Button(onClick = {
                 // Navigate to Login Activity
                 val intent = Intent(this@MainActivity, LoginActivity::class.java)
@@ -122,7 +125,6 @@ class MainActivity : ComponentActivity() {
                 Text("Login")
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
             Button(onClick = {
                 // Navigate to Search Peers Activity
                 val intent = Intent(this@MainActivity, SearchPeersActivity::class.java)
@@ -130,7 +132,7 @@ class MainActivity : ComponentActivity() {
             }) {
                 Text("Search Peers")
             }
-            Spacer(modifier = Modifier.height(16.dp))
+
             Button(onClick = {
                 // Navigate to Sign Up Activity
                 val intent = Intent(this@MainActivity, SignUpActivity::class.java)
@@ -138,7 +140,6 @@ class MainActivity : ComponentActivity() {
             }) {
                 Text("Sign Up")
             }
-            Spacer(modifier = Modifier.height(16.dp))
 
             Button(onClick = {
                 // Navigate to Verify Account Activity
@@ -147,7 +148,7 @@ class MainActivity : ComponentActivity() {
             }) {
                 Text("Verify Account")
             }
-            Spacer(modifier = Modifier.height(16.dp))
+
             Button(onClick = {
                 // Navigate to View Chatrooms Activity
                 val intent = Intent(this@MainActivity, ViewChatroomsActivity::class.java)
@@ -155,8 +156,6 @@ class MainActivity : ComponentActivity() {
             }) {
                 Text("View Chatrooms")
             }
-
-            Spacer(modifier = Modifier.height(16.dp))
 
             Button(onClick = {
                 // Navigate to View Events Activity
@@ -167,6 +166,7 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
 
 
 

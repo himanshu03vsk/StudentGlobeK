@@ -17,7 +17,6 @@ fun TextFieldInputFunction(label: String, value: String, onValueChange: (String)
         onValueChange = onValueChange,
         modifier = Modifier.fillMaxWidth(),
         singleLine = true,
-        textStyle = MaterialTheme.typography.bodyLarge.copy(MaterialTheme.colorScheme.onPrimary), // Adjusts the font size and style
-
+        textStyle = MaterialTheme.typography.bodyLarge.copy(MaterialTheme.colorScheme.onPrimary),
     )
 }
