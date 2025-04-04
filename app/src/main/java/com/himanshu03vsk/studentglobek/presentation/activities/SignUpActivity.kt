@@ -19,7 +19,9 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
+
+private const val TAG = "Firestore"
 
 class SignUpActivity : ComponentActivity() {
     private lateinit var auth: FirebaseAuth
@@ -86,35 +88,58 @@ private fun validateInput(userId: String, name: String, email: String, password:
     return true
 }
 
-private fun registerUser(auth: FirebaseAuth, userId: String, name: String, email: String, password: String, major: String, department: String, phoneNumber: String, context: Context, activity: ComponentActivity) {
+private fun registerUser(
+    auth: FirebaseAuth,
+    userId: String,
+    name: String,
+    email: String,
+    password: String,
+    major: String,
+    department: String,
+    phoneNumber: String,
+    context: Context,
+    activity: ComponentActivity
+) {
     auth.createUserWithEmailAndPassword(email, password)
         .addOnCompleteListener(activity) { task ->
             if (task.isSuccessful) {
-                Log.d("Register", "createUserWithEmail:success")
                 val user = auth.currentUser
-                saveUserData(user?.uid, userId, name, email, major, department, phoneNumber)
+                user?.let {
+                    saveUserData(auth, userId, name, email, major, department, phoneNumber)
+                }
                 Toast.makeText(context, "Registration successful", Toast.LENGTH_SHORT).show()
                 context.startActivity(Intent(context, LoginActivity::class.java))
                 activity.finish()
             } else {
-                Log.w("Register", "createUserWithEmail:failure", task.exception)
+                Log.w(TAG, "createUserWithEmail:failure", task.exception)
                 Toast.makeText(context, "Registration failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
             }
         }
 }
 
-private fun saveUserData(firebaseUid: String?, userId: String, name: String, email: String, major: String, department: String, phoneNumber: String) {
-    val database = FirebaseDatabase.getInstance().reference
-    val user = hashMapOf(
-        "userId" to userId,
-        "name" to name,
-        "email" to email,
-        "major" to major,
-        "department" to department,
-        "phNumber" to phoneNumber
-    )
-    firebaseUid?.let {
-        database.child("users").child(it).setValue(user)
+private fun saveUserData(auth: FirebaseAuth, userId: String, name: String, email: String, major: String, department: String, phoneNumber: String) {
+    val db = FirebaseFirestore.getInstance()
+    val currentUser = auth.currentUser
+
+    if (currentUser != null) {
+        val user = hashMapOf(
+            "userID" to userId,
+            "name" to name,
+            "email" to email,
+            "major" to major,
+            "department" to department,
+            "phNumber" to phoneNumber
+        )
+
+        db.collection("users").document(currentUser.uid)
+            .set(user)
+            .addOnSuccessListener {
+                Log.d(TAG, "User successfully created!")
+            }
+            .addOnFailureListener { e ->
+                Log.w(TAG, "Error creating user", e)
+            }
+    } else {
+        Log.e(TAG, "Error: No authenticated user found.")
     }
 }
-
