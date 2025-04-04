@@ -13,7 +13,7 @@
         android:theme="@style/Theme.StudentGlobeK"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".presentation.activities.HomePageActivity"
             android:exported="true"
             android:theme="@style/Theme.StudentGlobeK">
             <intent-filter>
@@ -22,25 +22,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<!--define all the activities here-->
-        <activity android:name=".presentation.activities.CreateChatroomActivity"/>
-        <activity android:name=".presentation.activities.CreateEventActivity"/>
-        <activity android:name=".presentation.activities.EditProfileActivity"/>
-        <activity android:name=".presentation.activities.ChatroomActivity"/>
-        <activity android:name=".presentation.activities.EventActivity"/>
-        <activity android:name=".presentation.activities.LoginActivity"/>
-        <activity android:name=".presentation.activities.SearchPeersActivity"/>
-        <activity android:name=".presentation.activities.SignUpActivity"/>
-        <activity android:name=".presentation.activities.VerifyAccountActivity"/>
-        <activity android:name=".presentation.activities.ViewChatroomsActivity"/>
-        <activity android:name=".presentation.activities.ViewEventsActivity"/>
-        <activity android:name=".presentation.activities.LandingActivity"/>
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.StudentGlobeK">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-
-
-
-
-
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity> <!-- define all the activities here -->
+        <activity android:name=".presentation.activities.CreateChatroomActivity" />
+        <activity android:name=".presentation.activities.CreateEventActivity" />
+        <activity android:name=".presentation.activities.EditProfileActivity" />
+        <activity android:name=".presentation.activities.ChatroomActivity" />
+        <activity android:name=".presentation.activities.EventActivity" />
+        <activity android:name=".presentation.activities.LoginActivity" />
+        <activity android:name=".presentation.activities.SearchPeersActivity" />
+        <activity android:name=".presentation.activities.SignUpActivity" />
+        <activity android:name=".presentation.activities.VerifyAccountActivity" />
+        <activity android:name=".presentation.activities.ViewChatroomsActivity" />
+        <activity android:name=".presentation.activities.ViewEventsActivity" />
+        <activity android:name=".presentation.activities.LandingActivity" />
     </application>
 
 </manifest>
