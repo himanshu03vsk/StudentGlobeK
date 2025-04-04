@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "27900702454",
+    "project_id": "student-globe",
+    "storage_bucket": "student-globe.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:27900702454:android:f148250432ccb73e3d06d7",
+        "android_client_info": {
+          "package_name": "com.himanshu03vsk.studentglobek"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3vxjpjeKZ2aZrSvM24tV_5rxzOfkyLXQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

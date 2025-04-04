@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.ui.Modifier
 import com.himanshu03vsk.studentglobek.ui.theme.StudentGlobeKTheme
-class LoginActivity : ComponentActivity() {
+class HomePageActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -18,7 +18,7 @@ class LoginActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Text(text = "This is a Login Screen")
+                    Text(text = "This is a Homepage Screen")
                 }
             }
         }

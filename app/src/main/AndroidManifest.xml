@@ -35,8 +35,6 @@
         <activity android:name=".presentation.activities.ViewChatroomsActivity"/>
         <activity android:name=".presentation.activities.ViewEventsActivity"/>
         <activity android:name=".presentation.activities.LandingActivity"/>
-        <activity android:name=".presentation.activities.ResetPasswordActivity"/>
-
 
 
 
