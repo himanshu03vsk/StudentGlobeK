@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class ChatroomViewModel : ViewModel() {
+class ChatRoomsViewModel : ViewModel() {
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
 
@@ -41,7 +41,6 @@ class ChatroomViewModel : ViewModel() {
                 }
 
                 snapshotListener = db.collection("chatrooms")
-                    .whereArrayContains("members", currentUserId)
                     .addSnapshotListener { snapshot, error ->
                         _isLoading.value = false
 
@@ -52,7 +51,13 @@ class ChatroomViewModel : ViewModel() {
 
                         val chatroomList = mutableListOf<Chatroom>()
                         snapshot?.documents?.forEach { doc ->
-                            chatroomList.add(doc.toChatroom())
+
+                            val members = doc.get("members") as List<*>
+
+                            // Check if currentUserId is NOT in the members array
+                            if (!members.contains(currentUserId)) {
+                                chatroomList.add(doc.toChatroom())
+                            }
                         }
                         _chatrooms.value = chatroomList
                     }
