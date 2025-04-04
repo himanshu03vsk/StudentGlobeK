@@ -1,6 +1,5 @@
 package com.himanshu03vsk.studentglobek.presentation.activities
 
-
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -17,26 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.firebase.auth.FirebaseAuth
 import com.himanshu03vsk.studentglobek.ui.theme.StudentGlobeKTheme
-//class LoginActivity : ComponentActivity() {
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContent {
-//            StudentGlobeKTheme {
-//                // Layout for creating a chatroom
-//                Column(
-//                    modifier = Modifier.fillMaxSize(),
-//                    verticalArrangement = Arrangement.Center
-//                ) {
-//                    Text(text = "This is a Login Screen")
-//                }
-//            }
-//        }
-//    }
-//}
 
 class LoginActivity : ComponentActivity() {
     private lateinit var auth: FirebaseAuth
@@ -57,7 +39,7 @@ class LoginActivity : ComponentActivity() {
 fun LoginScreen(auth: FirebaseAuth, activity: ComponentActivity) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var context = LocalContext.current
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
