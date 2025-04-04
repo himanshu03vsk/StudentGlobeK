@@ -22,8 +22,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import com.himanshu03vsk.studentglobek.ui.theme.StudentGlobeKTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,6 +89,15 @@ class MainActivity : ComponentActivity() {
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            Button(onClick = {
+                // Navigate to User Profile Activity (or any other activity)
+                val intent = Intent(this@MainActivity, HomePageActivity::class.java)
+                this@MainActivity.startActivity(intent)
+            }) {
+                Text("Home Page")
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
             Button(onClick = {
                 // Navigate to Chatroom Activity
                 val intent = Intent(this@MainActivity, ChatroomActivity::class.java)
