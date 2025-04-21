@@ -45,6 +45,12 @@ class SignUpActivity : ComponentActivity() {
     }
 }
 
+
+
+val bangersFontFamily = FontFamily(
+    Font(R.font.bangers)
+)
+
 @Composable
 fun SignUpPage(modifier: Modifier = Modifier) {
     var email by remember { mutableStateOf(TextFieldValue("")) }
@@ -52,7 +58,9 @@ fun SignUpPage(modifier: Modifier = Modifier) {
     var confirmPassword by remember { mutableStateOf(TextFieldValue("")) }
     var gender by remember { mutableStateOf("Male") }
     var dob by remember { mutableStateOf("MM/DD/YYYY") }
-
+    var department by remember { mutableStateOf(TextFieldValue("")) }
+    var major by remember { mutableStateOf(TextFieldValue("")) }
+    var phno by remember { mutableStateOf(TextFieldValue("")) }
     // The sign-up page layout
     Column(
         modifier = modifier
@@ -66,7 +74,8 @@ fun SignUpPage(modifier: Modifier = Modifier) {
             text = "Sign up and Hop On!",
             fontFamily = bangersFontFamily,
             fontSize = 32.sp,
-            modifier = Modifier.padding(bottom = 24.dp)
+            modifier = Modifier.padding(bottom = 24.dp),
+            color = Color.White
         )
 
         // Email input field
@@ -81,7 +90,7 @@ fun SignUpPage(modifier: Modifier = Modifier) {
             singleLine = true
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         // Password input field
         OutlinedTextField(
@@ -96,9 +105,8 @@ fun SignUpPage(modifier: Modifier = Modifier) {
             singleLine = true
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
-        // Confirm Password input field
         OutlinedTextField(
             value = confirmPassword,
             onValueChange = { confirmPassword = it },
@@ -111,15 +119,44 @@ fun SignUpPage(modifier: Modifier = Modifier) {
             singleLine = true
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
+
+
+        OutlinedTextField(
+            value = department,
+            onValueChange = { department = it },
+            label = { Text("Department") },
+            modifier = Modifier.fillMaxWidth().padding(8.dp),
+            )
+        Spacer(modifier = Modifier.height(8.dp))
+
+        OutlinedTextField(
+            value= major,
+            onValueChange = { major = it },
+            label = { Text("Major") },
+            modifier = Modifier.fillMaxWidth().padding(8.dp))
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+
+        // Confirm Password input field
 
         // Gender selection (Male/Female/Other)
-        Text("Gender", style = TextStyle(color = Color.Gray), modifier = Modifier.align(Alignment.Start))
-        Row(modifier = Modifier.padding(8.dp).align(Alignment.Start)) {
-            GenderOption(gender = gender, onGenderSelected = { gender = it })
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
+//        Text("Gender", style = TextStyle(color = Color.Gray), modifier = Modifier.align(Alignment.Start))
+//        Row(modifier = Modifier.padding(8.dp).align(Alignment.Start)) {
+//            GenderOption(gender = gender, onGenderSelected = { gender = it })
+//        }
+        OutlinedTextField(
+            value = phno,
+            onValueChange = { phno = it },
+            label = { Text("Phone Number") },
+            modifier = Modifier.fillMaxWidth().padding(8.dp),
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Number
+            ),
+            singleLine = true
+        )
+        Spacer(modifier = Modifier.height(8.dp))
 
         // Date of Birth
         OutlinedTextField(
