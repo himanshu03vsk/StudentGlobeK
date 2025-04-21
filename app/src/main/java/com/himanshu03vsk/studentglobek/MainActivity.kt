@@ -25,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -163,6 +164,21 @@ class MainActivity : ComponentActivity() {
                 this@MainActivity.startActivity(intent)
             }) {
                 Text("View Events")
+            }
+
+            // Logout Button
+            Button(onClick = {
+                // Sign out the user
+                FirebaseAuth.getInstance().signOut()
+
+                // Redirect to Landing Page (or Login Page)
+                val intent = Intent(this@MainActivity, LandingActivity::class.java) // or LoginActivity
+                this@MainActivity.startActivity(intent)
+
+                // Optional: Finish the current activity to prevent going back to the MainActivity
+                finish()
+            }) {
+                Text("Logout")
             }
         }
     }

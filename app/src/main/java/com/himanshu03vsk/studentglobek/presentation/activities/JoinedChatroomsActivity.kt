@@ -20,6 +20,8 @@ import com.himanshu03vsk.studentglobek.presentation.components.TopAppBarComponen
 import com.himanshu03vsk.studentglobek.ui.theme.StudentGlobeKTheme
 import com.himanshu03vsk.studentglobek.presentation.viewmodel.JoinedChatRoomsViewModel
 import java.text.SimpleDateFormat
+import com.himanshu03vsk.studentglobek.presentation.components.*
+
 import java.util.*
 
 class JoinedChatroomsActivity : ComponentActivity() {
@@ -87,7 +89,7 @@ fun ChatroomListScreen(viewModel: JoinedChatRoomsViewModel) {
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         items(chatrooms) { chatroom ->
-                            ChatroomCard(chatroom = chatroom)
+                            ChatroomCardJoined(chatroom = chatroom)
                         }
                     }
                 }

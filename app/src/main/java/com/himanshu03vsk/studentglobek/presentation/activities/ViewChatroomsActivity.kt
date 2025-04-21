@@ -18,13 +18,12 @@ import com.google.firebase.Timestamp
 import com.himanshu03vsk.studentglobek.domain.model.Chatroom
 import com.himanshu03vsk.studentglobek.presentation.components.TopAppBarComponent
 import com.himanshu03vsk.studentglobek.ui.theme.StudentGlobeKTheme
-import com.himanshu03vsk.studentglobek.presentation.viewmodel.ChatRoomsViewModel
-import com.himanshu03vsk.studentglobek.presentation.viewmodel.JoinedChatRoomsViewModel
+import com.himanshu03vsk.studentglobek.presentation.viewmodel.SearchChatroomsViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
 class ViewChatroomsActivity : ComponentActivity() {
-    private val viewModel: ChatRoomsViewModel by viewModels()
+    private val viewModel: SearchChatroomsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +36,7 @@ class ViewChatroomsActivity : ComponentActivity() {
 }
 
 @Composable
-fun ViewChatroomListScreen(viewModel: ChatRoomsViewModel) {
+fun ViewChatroomListScreen(viewModel: SearchChatroomsViewModel) {
     val chatrooms by viewModel.chatrooms.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val error by viewModel.error.collectAsState()
@@ -88,11 +87,14 @@ fun ViewChatroomListScreen(viewModel: ChatRoomsViewModel) {
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         items(chatrooms) { chatroom ->
-                            ChatroomCard(chatroom = chatroom)
+                            ChatroomCardSearch(chatroom = chatroom) { selectedChatroom ->
+                                viewModel.joinChatroom(selectedChatroom.id)
+                            }
                         }
                     }
                 }
             }
         }
+
     }
 }
