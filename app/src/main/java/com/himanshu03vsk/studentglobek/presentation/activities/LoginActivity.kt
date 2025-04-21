@@ -85,11 +85,11 @@ fun LoginScreen(auth: FirebaseAuth, activity: ComponentActivity) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        Button(onClick = {
-            context.startActivity(Intent(context, SignUpActivity::class.java))
-        }) {
-            Text("Register")
-        }
+//        Button(onClick = {
+//            context.startActivity(Intent(context, SignUpActivity::class.java))
+//        }) {
+//            Text("Register")
+//        }
     }
 }
 
