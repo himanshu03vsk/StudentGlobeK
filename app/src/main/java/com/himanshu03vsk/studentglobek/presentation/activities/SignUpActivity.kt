@@ -105,7 +105,7 @@ private fun registerUser(
             if (task.isSuccessful) {
                 val user = auth.currentUser
                 user?.let {
-                    saveUserData(auth, userName, name, email, major, department, phoneNumber)
+                    saveUserData(auth, userName, name.toTitleCase(), email, major.toTitleCase(), department.toTitleCase(), phoneNumber)
                 }
                 Toast.makeText(context, "Registration successful", Toast.LENGTH_SHORT).show()
                 context.startActivity(Intent(context, LoginActivity::class.java))
@@ -115,6 +115,11 @@ private fun registerUser(
                 Toast.makeText(context, "Registration failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
             }
         }
+}
+
+private fun String.toTitleCase(): String {
+    return this.split(" ")
+        .joinToString(" ") { it.replaceFirstChar { char -> char.uppercase() } }
 }
 
 private fun saveUserData(auth: FirebaseAuth, userName: String, name: String, email: String, major: String, department: String, phoneNumber: String) {

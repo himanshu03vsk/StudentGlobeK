@@ -1,7 +1,9 @@
 package com.himanshu03vsk.studentglobek.presentation.activities
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -25,7 +27,6 @@ class CreateChatroomActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             StudentGlobeKTheme {
-
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     CreateChatroomScreen(
                         modifier = Modifier.padding(innerPadding)
@@ -91,8 +92,8 @@ fun CreateChatroomScreen(modifier: Modifier) {
 
         Button(
             onClick = {
-                if (validateInput(chatroomName, major, department)) {
-                    createChatroom(
+                if (validateInput(chatroomName, major, department))  {
+                    createChatroom(context,
                         firestore = firestore,
                         auth = auth,
                         chatroomName = chatroomName,
@@ -134,6 +135,7 @@ private fun validateInput(chatroomName: String, major: String, department: Strin
 }
 
 private fun createChatroom(
+    context: Context,
     firestore: FirebaseFirestore,
     auth: FirebaseAuth,
     chatroomName: String,
@@ -144,43 +146,74 @@ private fun createChatroom(
     onError: (Exception) -> Unit
 ) {
     val currentUser = auth.currentUser
+
     if (currentUser == null) {
         onError(Exception("User not authenticated"))
         return
     }
 
-    var typeDurationInMillis: Long = 0
-    val calendar = Calendar.getInstance()
-
-    if (chatroomType == "Semester") {
-        calendar.add(Calendar.MONTH, 4)
-        typeDurationInMillis = calendar.timeInMillis
-    } else if (chatroomType == "Event") {
-        calendar.add(Calendar.WEEK_OF_YEAR, 4)
-        typeDurationInMillis = calendar.timeInMillis
-    }
-
-    val chatroomData = hashMapOf(
-        "chatroomName" to chatroomName,
-        "chatroomType" to chatroomType,
-        "ownerId" to currentUser.uid,
-        "members" to listOf(currentUser.uid),
-        "major" to major,
-        "department" to department,
-        "createdAt" to Timestamp.now(),
-        "updatedAt" to Timestamp.now(),
-        "expiry" to Timestamp(typeDurationInMillis / 1000, 0)
-    )
-
+    // Check chatroom limit (max 4 per user)
     firestore.collection("chatrooms")
-        .add(chatroomData)
-        .addOnSuccessListener {
-            onSuccess()
+        .whereEqualTo("ownerId", currentUser.uid)
+        .get()
+        .addOnSuccessListener { querySnapshot ->
+            if (querySnapshot.size() >= 4) {
+                Toast.makeText(
+                    context,
+                    "Maximum limit of 4 chatrooms reached",
+                    Toast.LENGTH_SHORT
+                ).show()
+                onError(Exception("Chatroom limit reached"))
+                return@addOnSuccessListener
+            }
+
+            // Determine expiry time based on chatroom type
+            val calendar = Calendar.getInstance()
+            val typeDurationInMillis: Long = when (chatroomType) {
+                "Semester" -> {
+                    calendar.add(Calendar.MONTH, 4)
+                    calendar.timeInMillis
+                }
+                "Event" -> {
+                    calendar.add(Calendar.WEEK_OF_YEAR, 4)
+                    calendar.timeInMillis
+                }
+                else -> {
+                    calendar.add(Calendar.DAY_OF_YEAR, 30)
+                    calendar.timeInMillis
+                }
+            }
+
+            val chatroomData = hashMapOf(
+                "chatroomName" to chatroomName,
+                "chatroomType" to chatroomType,
+                "ownerId" to currentUser.uid,
+                "members" to listOf(currentUser.uid),
+                "major" to major,
+                "department" to department,
+                "createdAt" to Timestamp.now(),
+                "updatedAt" to Timestamp.now(),
+                "expiry" to Timestamp(typeDurationInMillis / 1000, 0)
+            )
+
+            // Create chatroom in Firestore
+            firestore.collection("chatrooms")
+                .add(chatroomData)
+                .addOnSuccessListener {
+                    Log.d("CreateChatroom", "Chatroom created successfully!")
+                    onSuccess()
+                }
+                .addOnFailureListener { e ->
+                    Log.e("CreateChatroom", "Error creating chatroom", e)
+                    onError(e)
+                }
         }
         .addOnFailureListener { e ->
+            Log.e("CreateChatroom", "Error checking chatroom limit", e)
             onError(e)
         }
 }
+
 
 
 @Composable
