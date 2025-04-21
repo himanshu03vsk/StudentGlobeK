@@ -40,7 +40,7 @@ class SignUpActivity : ComponentActivity() {
 
 @Composable
 fun SignUpScreen(auth: FirebaseAuth, activity: ComponentActivity) {
-    var userId by remember { mutableStateOf("") }
+    var userName by remember { mutableStateOf("") }
     var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -56,7 +56,7 @@ fun SignUpScreen(auth: FirebaseAuth, activity: ComponentActivity) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        OutlinedTextField(value = userId, onValueChange = { userId = it }, label = { Text("User ID") })
+        OutlinedTextField(value = userName, onValueChange = { userName = it }, label = { Text("UserName") })
         OutlinedTextField(value = name, onValueChange = { name = it }, label = { Text("Name") })
         OutlinedTextField(value = email, onValueChange = { email = it }, label = { Text("Email") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email))
         OutlinedTextField(value = password, onValueChange = { password = it }, label = { Text("Password") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password), visualTransformation = PasswordVisualTransformation())
@@ -67,8 +67,8 @@ fun SignUpScreen(auth: FirebaseAuth, activity: ComponentActivity) {
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = {
-            if (validateInput(userId, name, email, password, context)) {
-                registerUser(auth, userId, name, email, password, major, department, phoneNumber, context, activity)
+            if (validateInput(userName, name, email, password, context)) {
+                registerUser(auth, userName, name, email, password, major, department, phoneNumber, context, activity)
             }
         }) {
             Text("Register")
@@ -76,8 +76,8 @@ fun SignUpScreen(auth: FirebaseAuth, activity: ComponentActivity) {
     }
 }
 
-private fun validateInput(userId: String, name: String, email: String, password: String, context: Context): Boolean {
-    if (userId.isEmpty() || name.isEmpty() || email.isEmpty() || password.isEmpty()) {
+private fun validateInput(userName: String, name: String, email: String, password: String, context: Context): Boolean {
+    if (userName.isEmpty() || name.isEmpty() || email.isEmpty() || password.isEmpty()) {
         Toast.makeText(context, "Please fill all required fields", Toast.LENGTH_SHORT).show()
         return false
     }
@@ -90,7 +90,7 @@ private fun validateInput(userId: String, name: String, email: String, password:
 
 private fun registerUser(
     auth: FirebaseAuth,
-    userId: String,
+    userName: String,
     name: String,
     email: String,
     password: String,
@@ -105,7 +105,7 @@ private fun registerUser(
             if (task.isSuccessful) {
                 val user = auth.currentUser
                 user?.let {
-                    saveUserData(auth, userId, name, email, major, department, phoneNumber)
+                    saveUserData(auth, userName, name.toTitleCase(), email, major.toTitleCase(), department.toTitleCase(), phoneNumber)
                 }
                 Toast.makeText(context, "Registration successful", Toast.LENGTH_SHORT).show()
                 context.startActivity(Intent(context, LoginActivity::class.java))
@@ -117,13 +117,19 @@ private fun registerUser(
         }
 }
 
-private fun saveUserData(auth: FirebaseAuth, userId: String, name: String, email: String, major: String, department: String, phoneNumber: String) {
+private fun String.toTitleCase(): String {
+    return this.split(" ")
+        .joinToString(" ") { it.replaceFirstChar { char -> char.uppercase() } }
+}
+
+private fun saveUserData(auth: FirebaseAuth, userName: String, name: String, email: String, major: String, department: String, phoneNumber: String) {
     val db = FirebaseFirestore.getInstance()
     val currentUser = auth.currentUser
 
     if (currentUser != null) {
         val user = hashMapOf(
-            "userID" to userId,
+            "userName" to userName,
+            "userID" to currentUser.uid,
             "name" to name,
             "email" to email,
             "major" to major,
